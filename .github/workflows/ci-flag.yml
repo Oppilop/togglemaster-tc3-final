@@ -19,6 +19,10 @@ on:
       - '.github/workflows/ci-flag.yml'
       - '.github/workflows/_reusable-cicd.yml'
 
+permissions:
+  contents: write
+  security-events: write
+
 jobs:
   cicd:
     uses: ./.github/workflows/_reusable-cicd.yml
