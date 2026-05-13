@@ -3,21 +3,21 @@
 
 name: CI - targeting-service
 
-on:
-  pull_request:
-    branches: [ main ]
-    paths:
-      - 'services/targeting-service/**'
-      - 'gitops/base/targeting/**'
-      - '.github/workflows/ci-targeting.yml'
-      - '.github/workflows/_reusable-cicd.yml'
-  push:
-    branches: [ main ]
-    paths:
-      - 'services/targeting-service/**'
-      - 'gitops/base/targeting/**'
-      - '.github/workflows/ci-targeting.yml'
-      - '.github/workflows/_reusable-cicd.yml'
+# on:
+#   pull_request:
+#     branches: [ main ]
+#     paths:
+#       - 'services/targeting-service/**'
+#       - 'gitops/base/targeting/**'
+#       - '.github/workflows/ci-targeting.yml'
+#       - '.github/workflows/_reusable-cicd.yml'
+#   push:
+#     branches: [ main ]
+#     paths:
+#       - 'services/targeting-service/**'
+#       - 'gitops/base/targeting/**'
+#       - '.github/workflows/ci-targeting.yml'
+#       - '.github/workflows/_reusable-cicd.yml'
 
 permissions:
   contents: write

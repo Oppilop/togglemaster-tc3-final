@@ -3,21 +3,21 @@
 
 name: CI - evaluation-service
 
-on:
-  pull_request:
-    branches: [ main ]
-    paths:
-      - 'services/evaluation-service/**'
-      - 'gitops/base/evaluation/**'
-      - '.github/workflows/ci-evaluation.yml'
-      - '.github/workflows/_reusable-cicd.yml'
-  push:
-    branches: [ main ]
-    paths:
-      - 'services/evaluation-service/**'
-      - 'gitops/base/evaluation/**'
-      - '.github/workflows/ci-evaluation.yml'
-      - '.github/workflows/_reusable-cicd.yml'
+# on:
+#   pull_request:
+#     branches: [ main ]
+#     paths:
+#       - 'services/evaluation-service/**'
+#       - 'gitops/base/evaluation/**'
+#       - '.github/workflows/ci-evaluation.yml'
+#       - '.github/workflows/_reusable-cicd.yml'
+#   push:
+#     branches: [ main ]
+#     paths:
+#       - 'services/evaluation-service/**'
+#       - 'gitops/base/evaluation/**'
+#       - '.github/workflows/ci-evaluation.yml'
+#       - '.github/workflows/_reusable-cicd.yml'
 
 permissions:
   contents: write
