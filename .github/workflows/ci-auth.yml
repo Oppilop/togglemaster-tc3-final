@@ -3,21 +3,21 @@
 
 name: CI - auth-service
 
-# on:
-#   pull_request:
-#     branches: [ main ]
-#     paths:
-#       - 'services/auth-service/**'
-#       - 'gitops/base/auth/**'
-#       - '.github/workflows/ci-auth.yml'
-#       - '.github/workflows/_reusable-cicd.yml'
-#   push:
-#     branches: [ main ]
-#     paths:
-#       - 'services/auth-service/**'
-#       - 'gitops/base/auth/**'
-#       - '.github/workflows/ci-auth.yml'
-#       - '.github/workflows/_reusable-cicd.yml'
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'services/auth-service/**'
+      - 'gitops/base/auth/**'
+      - '.github/workflows/ci-auth.yml'
+      - '.github/workflows/_reusable-cicd.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'services/auth-service/**'
+      - 'gitops/base/auth/**'
+      - '.github/workflows/ci-auth.yml'
+      - '.github/workflows/_reusable-cicd.yml'
 
 permissions:
   contents: write

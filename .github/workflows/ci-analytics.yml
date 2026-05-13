@@ -3,21 +3,21 @@
 
 name: CI - analytics-service
 
-# on:
-#   pull_request:
-#     branches: [ main ]
-#     paths:
-#       - 'services/analytics-service/**'
-#       - 'gitops/base/analytics/**'
-#       - '.github/workflows/ci-analytics.yml'
-#       - '.github/workflows/_reusable-cicd.yml'
-#   push:
-#     branches: [ main ]
-#     paths:
-#       - 'services/analytics-service/**'
-#       - 'gitops/base/analytics/**'
-#       - '.github/workflows/ci-analytics.yml'
-#       - '.github/workflows/_reusable-cicd.yml'
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'services/analytics-service/**'
+      - 'gitops/base/analytics/**'
+      - '.github/workflows/ci-analytics.yml'
+      - '.github/workflows/_reusable-cicd.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'services/analytics-service/**'
+      - 'gitops/base/analytics/**'
+      - '.github/workflows/ci-analytics.yml'
+      - '.github/workflows/_reusable-cicd.yml'
 
 permissions:
   contents: write

@@ -3,21 +3,21 @@
 
 name: CI - flag-service
 
-# on:
-#   pull_request:
-#     branches: [ main ]
-#     paths:
-#       - 'services/flag-service/**'
-#       - 'gitops/base/flag/**'
-#       - '.github/workflows/ci-flag.yml'
-#       - '.github/workflows/_reusable-cicd.yml'
-#   push:
-#     branches: [ main ]
-#     paths:
-#       - 'services/flag-service/**'
-#       - 'gitops/base/flag/**'
-#       - '.github/workflows/ci-flag.yml'
-#       - '.github/workflows/_reusable-cicd.yml'
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'services/flag-service/**'
+      - 'gitops/base/flag/**'
+      - '.github/workflows/ci-flag.yml'
+      - '.github/workflows/_reusable-cicd.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'services/flag-service/**'
+      - 'gitops/base/flag/**'
+      - '.github/workflows/ci-flag.yml'
+      - '.github/workflows/_reusable-cicd.yml'
 
 permissions:
   contents: write
