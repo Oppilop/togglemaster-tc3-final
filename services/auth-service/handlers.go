@@ -15,6 +15,7 @@ type CreateKeyRequest struct {
 // Estrutura para a resposta da criação de chave
 type CreateKeyResponse struct {
 	Name    string `json:"name"`
+<<<<<<< HEAD
 	Key     string `json:"key"` // chave em texto plano retornada APENAS uma vez
 	Message string `json:"message"`
 }
@@ -32,10 +33,24 @@ func writeJSON(w http.ResponseWriter, status int, body interface{}) {
 // healthHandler é um simples endpoint de verificação de saúde
 func (a *App) healthHandler(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusOK, map[string]string{"status": "ok"})
+=======
+	Key     string `json:"key"` // A chave em texto plano é retornada APENAS uma vez
+	Message string `json:"message"`
+}
+
+// healthHandler é um simples endpoint de verificação de saúde
+func (a *App) healthHandler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(map[string]string{"status": "ok"})
+>>>>>>> 9204ee7da5de7b4a037661c564a1748b6d514677
 }
 
 // validateKeyHandler verifica se uma chave de API (enviada via Header) é válida
 func (a *App) validateKeyHandler(w http.ResponseWriter, r *http.Request) {
+<<<<<<< HEAD
+=======
+	// Extrai a chave do header "Authorization: Bearer <key>"
+>>>>>>> 9204ee7da5de7b4a037661c564a1748b6d514677
 	authHeader := r.Header.Get("Authorization")
 	keyString := strings.TrimPrefix(authHeader, "Bearer ")
 
@@ -49,17 +64,29 @@ func (a *App) validateKeyHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Verifica se o hash existe no banco de dados
 	var id int
+<<<<<<< HEAD
 	err := a.DB.QueryRow(
 		"SELECT id FROM api_keys WHERE key_hash = $1 AND is_active = true",
 		keyHash,
 	).Scan(&id)
 	if err != nil {
+=======
+	err := a.DB.QueryRow("SELECT id FROM api_keys WHERE key_hash = $1 AND is_active = true", keyHash).Scan(&id)
+	if err != nil {
+		// Se não encontrar (sql.ErrNoRows), ou qualquer outro erro, a chave é inválida
+>>>>>>> 9204ee7da5de7b4a037661c564a1748b6d514677
 		log.Printf("Falha na validação da chave (hash: %s...): %v", keyHash[:6], err)
 		http.Error(w, "Chave de API inválida ou inativa", http.StatusUnauthorized)
 		return
 	}
 
+<<<<<<< HEAD
 	writeJSON(w, http.StatusOK, map[string]string{"message": "Chave válida"})
+=======
+	// Chave válida
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(map[string]string{"message": "Chave válida"})
+>>>>>>> 9204ee7da5de7b4a037661c564a1748b6d514677
 }
 
 // createKeyHandler cria uma nova chave de API
@@ -102,9 +129,16 @@ func (a *App) createKeyHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	log.Printf("Nova chave criada com sucesso (ID: %d, Name: %s)", newID, req.Name)
+<<<<<<< HEAD
 	writeJSON(w, http.StatusCreated, CreateKeyResponse{
 		Name:    req.Name,
 		Key:     newKey,
+=======
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(CreateKeyResponse{
+		Name:    req.Name,
+		Key:     newKey, // Retorna a chave em texto plano pela última vez
+>>>>>>> 9204ee7da5de7b4a037661c564a1748b6d514677
 		Message: "Guarde esta chave com segurança! Você não poderá vê-la novamente.",
 	})
 }
@@ -121,6 +155,10 @@ func (a *App) masterKeyAuthMiddleware(next http.Handler) http.Handler {
 			http.Error(w, "Acesso não autorizado", http.StatusForbidden)
 			return
 		}
+<<<<<<< HEAD
+=======
+		// Se a chave for válida, continua para o handler principal
+>>>>>>> 9204ee7da5de7b4a037661c564a1748b6d514677
 		next.ServeHTTP(w, r)
 	})
 }

@@ -2,16 +2,28 @@ package main
 
 import (
 	"context"
+<<<<<<< HEAD
+=======
+	"crypto/tls"
+>>>>>>> 9204ee7da5de7b4a037661c564a1748b6d514677
 	"log"
 	"net/http"
 	"os"
 	"time"
 
+<<<<<<< HEAD
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/sqs"
 	"github.com/joho/godotenv"
 	"github.com/redis/go-redis/v9"
+=======
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/sqs"
+	"github.com/go-redis/redis/v8"
+	"github.com/joho/godotenv"
+>>>>>>> 9204ee7da5de7b4a037661c564a1748b6d514677
 )
 
 // Contexto global para o Redis
@@ -19,8 +31,13 @@ var ctx = context.Background()
 
 // App struct para injeção de dependência
 type App struct {
+<<<<<<< HEAD
 	RedisClient         *redis.Client
 	SqsClient           *sqs.Client
+=======
+	RedisClient         *redis.Client // Mantido como Client (não ClusterClient)
+	SqsSvc              *sqs.SQS
+>>>>>>> 9204ee7da5de7b4a037661c564a1748b6d514677
 	SqsQueueURL         string
 	HttpClient          *http.Client
 	FlagServiceURL      string
@@ -38,7 +55,11 @@ func main() {
 
 	redisURL := os.Getenv("REDIS_URL")
 	if redisURL == "" {
+<<<<<<< HEAD
 		log.Fatal("REDIS_URL deve ser definida (ex: redis://host:6379)")
+=======
+		log.Fatal("REDIS_URL deve ser definida (ex: redis://localhost:6379)")
+>>>>>>> 9204ee7da5de7b4a037661c564a1748b6d514677
 	}
 
 	flagSvcURL := os.Getenv("FLAG_SERVICE_URL")
@@ -63,6 +84,7 @@ func main() {
 
 	// --- Inicializa Clientes ---
 
+<<<<<<< HEAD
 	// 1. Cliente Redis
 	//
 	// SECURITY (gosec G402): a versão anterior forçava
@@ -74,10 +96,23 @@ func main() {
 	// Caso futuramente o cluster seja recriado COM TLS, a URL deve passar a
 	// usar o esquema `rediss://`, e o cliente fará TLS com verificação
 	// completa do certificado (sem InsecureSkipVerify).
+=======
+	// 1. Cliente Redis (Configuração corrigida)
+>>>>>>> 9204ee7da5de7b4a037661c564a1748b6d514677
 	opt, err := redis.ParseURL(redisURL)
 	if err != nil {
 		log.Fatalf("Não foi possível parsear a URL do Redis: %v", err)
 	}
+<<<<<<< HEAD
+=======
+
+	// Adiciona configuração de TLS necessária para a AWS ElastiCache
+	opt.TLSConfig = &tls.Config{
+		InsecureSkipVerify: true,
+	}
+
+	// Inicializa como Client simples (compatível com num_cache_nodes = 1)
+>>>>>>> 9204ee7da5de7b4a037661c564a1748b6d514677
 	rdb := redis.NewClient(opt)
 
 	if _, err := rdb.Ping(ctx).Result(); err != nil {
@@ -85,6 +120,7 @@ func main() {
 	}
 	log.Println("Conectado ao Redis com sucesso!")
 
+<<<<<<< HEAD
 	// 2. Cliente SQS — migrado para aws-sdk-go-v2 (v1 está EOL desde 31/jul/2025).
 	var sqsClient *sqs.Client
 	if sqsQueueURL != "" {
@@ -108,6 +144,29 @@ func main() {
 			}
 		})
 		log.Println("Cliente SQS (v2) inicializado com sucesso.")
+=======
+	// 2. Cliente SQS (AWS SDK)
+	var sqsSvc *sqs.SQS
+	if sqsQueueURL != "" {
+		localstackEndpoint := os.Getenv("LOCALSTACK_ENDPOINT")
+
+		awsCfg := &aws.Config{
+			Region: aws.String(awsRegion),
+		}
+
+		if localstackEndpoint != "" {
+			awsCfg.Endpoint = aws.String(localstackEndpoint)
+			awsCfg.S3ForcePathStyle = aws.Bool(true)
+			log.Printf("SQS configurado para LocalStack: %s", localstackEndpoint)
+		}
+
+		sess, err := session.NewSession(awsCfg)
+		if err != nil {
+			log.Fatalf("Não foi possível criar sessão AWS: %v", err)
+		}
+		sqsSvc = sqs.New(sess)
+		log.Println("Cliente SQS inicializado com sucesso.")
+>>>>>>> 9204ee7da5de7b4a037661c564a1748b6d514677
 	}
 
 	// 3. Cliente HTTP (com timeout)
@@ -118,7 +177,11 @@ func main() {
 	// Cria a instância da App
 	app := &App{
 		RedisClient:         rdb,
+<<<<<<< HEAD
 		SqsClient:           sqsClient,
+=======
+		SqsSvc:              sqsSvc,
+>>>>>>> 9204ee7da5de7b4a037661c564a1748b6d514677
 		SqsQueueURL:         sqsQueueURL,
 		HttpClient:          httpClient,
 		FlagServiceURL:      flagSvcURL,
@@ -130,6 +193,7 @@ func main() {
 	mux.HandleFunc("/health", app.healthHandler)
 	mux.HandleFunc("/evaluate", app.evaluationHandler)
 
+<<<<<<< HEAD
 	// SECURITY (gosec G114): servidor HTTP com timeouts explícitos.
 	server := &http.Server{
 		Addr:              ":" + port,
@@ -145,3 +209,10 @@ func main() {
 		log.Fatal(err)
 	}
 }
+=======
+	log.Printf("Serviço de Avaliação (Go) rodando na porta %s", port)
+	if err := http.ListenAndServe(":"+port, mux); err != nil {
+		log.Fatal(err)
+	}
+}
+>>>>>>> 9204ee7da5de7b4a037661c564a1748b6d514677

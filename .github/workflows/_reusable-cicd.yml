@@ -63,15 +63,23 @@ jobs:
         if: inputs.language == 'go'
         uses: actions/setup-go@v5
         with:
+<<<<<<< HEAD
           go-version: '1.25'
+=======
+          go-version: '1.22'
+>>>>>>> 9204ee7da5de7b4a037661c564a1748b6d514677
 
       - name: Go build + test
         if: inputs.language == 'go'
         working-directory: services/${{ inputs.service }}-service
         run: |
+<<<<<<< HEAD
           # go mod tidy resolve go.sum sem precisar versioná-lo.
           # Adequado porque o repo não inclui go.sum para todos os serviços.
           go mod tidy
+=======
+          go mod download
+>>>>>>> 9204ee7da5de7b4a037661c564a1748b6d514677
           go build ./...
           # Não falha se não houver testes — apenas roda os que existirem.
           go test ./... -count=1 -coverprofile=coverage.out || \
@@ -110,7 +118,11 @@ jobs:
         if: inputs.language == 'go'
         uses: actions/setup-go@v5
         with:
+<<<<<<< HEAD
           go-version: '1.25'
+=======
+          go-version: '1.22'
+>>>>>>> 9204ee7da5de7b4a037661c564a1748b6d514677
           args: --timeout=5m -D errcheck --exclude="SA1019"
 
       - name: golangci-lint
@@ -162,7 +174,11 @@ jobs:
         if: inputs.language == 'go'
         uses: actions/setup-go@v5
         with:
+<<<<<<< HEAD
           go-version: '1.25'
+=======
+          go-version: '1.22'
+>>>>>>> 9204ee7da5de7b4a037661c564a1748b6d514677
 
       - name: SAST — gosec (Go)
         if: inputs.language == 'go'
